@@ -5,39 +5,6 @@ export  @at,
         @condition,
         @observations
 
-
-macro at(args...)
-    if length(args)!==3
-        throw(ArgumentError("@at requires 3 arguments."))
-    end
-    esc(quote
-        local eval_args = eval.($args)
-        @assert reduce(&, (<:).(typeof.(eval_args), (Integer,String,Function))) == true "Wrong argument types to @at: $eval_args."
-        local step,name,map = eval_args
-        name = Symbol(name)
-        if step == 0
-            throw(ArgumentError("Step length cannot be zero."))
-        end
-        return (name=name, map=map, condition=(state,t)->(t == step)==0)
-    end)
-end
-
-macro every(args...)
-    if length(args)!==3
-        throw(ArgumentError("@every requires 3 arguments."))
-    end
-    esc(quote
-        local eval_args = eval.($args)
-        @assert reduce(&, (<:).(typeof.(eval_args), (Integer,String,Function))) == true "Wrong argument types to @every: $eval_args."
-        local step,name,map = eval_args
-        name = Symbol(name)
-        if step == 0
-            throw(ArgumentError("Step length cannot be zero."))
-        end
-        return (name=name, map=map, condition=(state,t)->(t % step)==0)
-    end)
-end
-
 macro condition(args...)
     if length(args)!==3
         throw(ArgumentError("@condition requires 3 arguments."))
@@ -48,6 +15,18 @@ macro condition(args...)
         local condition,name,map = eval_args
         name = Symbol(name)
         return (name=name, map=map, condition=condition)
+    end)
+end
+
+macro at(args...)
+    esc(quote
+        @condition (s,t)->t==$(args[1]) $(args[2]) $(args[3])
+    end)
+end
+
+macro every(args...)
+    esc(quote
+        @condition (s,t)->t % $(args[1])==0 $(args[2]) $(args[3])
     end)
 end
 
