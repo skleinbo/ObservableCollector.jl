@@ -11,7 +11,7 @@ macro at(args...)
         throw(ArgumentError("@at requires 3 arguments."))
     end
     esc(quote
-        eval_args = eval.($args)
+        local eval_args = eval.($args)
         @assert reduce(&, (<:).(typeof.(eval_args), (Integer,String,Function))) == true "Wrong argument types to @at: $eval_args."
         local step,name,map = eval_args
         name = Symbol(name)
@@ -27,7 +27,7 @@ macro every(args...)
         throw(ArgumentError("@every requires 3 arguments."))
     end
     esc(quote
-        eval_args = eval.($args)
+        local eval_args = eval.($args)
         @assert reduce(&, (<:).(typeof.(eval_args), (Integer,String,Function))) == true "Wrong argument types to @every: $eval_args."
         local step,name,map = eval_args
         name = Symbol(name)
@@ -43,7 +43,7 @@ macro condition(args...)
         throw(ArgumentError("@condition requires 3 arguments."))
     end
     esc(quote
-        eval_args = eval.($args)
+        local eval_args = eval.($args)
         @assert reduce(&, (<:).(typeof.(eval_args), (Function,String,Function))) == true "Wrong argument types to @condition: $eval_args."
         local condition,name,map = eval_args
         name = Symbol(name)
@@ -55,10 +55,10 @@ macro observations(ex::Expr)
     bodyparts = filter(x->typeof(x)==Expr && x.head==:macrocall,ex.args)
 
     esc(quote
-        clauses = eval.($bodyparts)
-        global func = :(;)
+        local clauses = eval.($bodyparts)
+        local func = :(;)
         for clause in clauses
-            global func = quote
+            func = quote
                 $func;
                 if (($clause).condition)(state,t)
                     push!(output, (name=($clause).name,val=(($clause).map)(state,t)))
