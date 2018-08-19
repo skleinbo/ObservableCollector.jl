@@ -25,7 +25,6 @@ end
     output == [(name=:AT, val=2)]
 end
 
-
 @test begin
     output = []
     obs = @observations begin
@@ -35,4 +34,18 @@ end
         obs(output,1,t)
     end
     output == [(name=:sumtofive, val=4)]
+end
+
+@test begin
+    output = []
+    obs = @observations begin
+        @condition (s,t)->t>=3 begin
+            "A" --> (s,t)->s
+            "T" --> (s,t)->t
+        end
+    end
+    for t in 1:4
+        obs(output,1,t)
+    end
+    output == [(name=:A, val=1),(name=:T, val=3),(name=:A, val=1),(name=:T, val=4)]
 end
