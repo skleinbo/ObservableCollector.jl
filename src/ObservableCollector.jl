@@ -1,9 +1,43 @@
 module ObservableCollector
 
-export  @at,
+import Base: push!
+
+export  timeseries,
+        @at,
         @every,
         @condition,
         @observations
+
+
+
+function Base.push!(D::Dict{Symbol, T}, m::NamedTuple{(:name, :val), Tuple{Symbol, V}}) where {T,V}
+    if !haskey(D, m.name)
+        push!(D, m.name => Union{V, Missing}[m.val])
+    else
+        push!(D[m.name], m.val)
+    end
+    D
+end
+
+function timeseries(x::AbstractArray)
+    D = Dict{Symbol,Any}()
+    for m in x
+        if !haskey(D, m.name)
+            push!(D, m.name => Union{typeof(m.val), Missing}[m.val])
+        else
+            push!(D[m.name], m.val)
+        end
+    end
+    # Flatten all arrays of length 1
+    for d in D
+        if length(d[2])==1
+            D[d[1]] = d[2][1]
+        end
+    end
+    D
+end
+
+
 
 """
     @condition(cond, block)
