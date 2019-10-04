@@ -19,6 +19,7 @@ function Base.push!(D::Dict{Symbol, T}, m::NamedTuple{(:name, :val), Tuple{Symbo
     D
 end
 
+
 """
     timeseries(x)
 
@@ -43,6 +44,7 @@ function timeseries(x::AbstractArray)
     end
     D
 end
+
 
 """
     @condition(cond, block)
