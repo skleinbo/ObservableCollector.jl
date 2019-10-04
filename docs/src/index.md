@@ -54,10 +54,14 @@ timeseries(X)
 ## Hints
 
 - `t` needn't necessarily be time. You may use it as some auxilliary variable, or even as a boolean switch to turn collection on/off. It also need not be a scalar, but could e.g. be a tuple.
-- Observables are (by my definiton) functions of state only and thus have no access to the measurement history. If you require observables to depend on previous measurements, store those in the state. (TODO: example)
+- Observables are (by my definition) functions of state only and thus have no access to the measurement history. If you require observables to depend on previous measurements, store those in the state. (__TODO:__ example)
 
 ## Available methods
 
-```@autodocs
-Modules = [ObservableCollector]
+```@docs
+@observations
+@condition
+@at
+@every
+timeseries
 ```

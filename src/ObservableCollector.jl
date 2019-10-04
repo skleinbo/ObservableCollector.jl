@@ -19,6 +19,13 @@ function Base.push!(D::Dict{Symbol, T}, m::NamedTuple{(:name, :val), Tuple{Symbo
     D
 end
 
+"""
+    timeseries(x)
+
+Turn a series of named tuples `(name=x, val=y)` into a dictionary with one series for each `name`.
+Types are `Union{Missing, T}` where `T` is the type of the first value encountered
+for a given name.
+"""
 function timeseries(x::AbstractArray)
     D = Dict{Symbol,Any}()
     for m in x
@@ -36,8 +43,6 @@ function timeseries(x::AbstractArray)
     end
     D
 end
-
-
 
 """
     @condition(cond, block)
