@@ -188,7 +188,7 @@ output = Any[(name = :A, val = 1), (name = :T, val = 3), (name = :A, val = 1), (
  (name = :T, val = 4)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/76846082cd6f9ffafef7a324ad59c5a2d2cc5e3f/src/ObservableCollector.jl#L121-L148' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/05744be6dacae997d79837b3e9e166b7c6d0c21a/src/ObservableCollector.jl#L121-L148' class='documenter-source'>source</a><br></p>
 <p><a id='ObservableCollector.@condition' href='#ObservableCollector.@condition'>#</a>
 <strong><code>ObservableCollector.@condition</code></strong> &mdash; <em>Macro</em>.</p>
 <pre><code class="julia">@condition(cond, block)
@@ -202,13 +202,13 @@ output = Any[(name = :A, val = 1), (name = :T, val = 3), (name = :A, val = 1), (
 end
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/76846082cd6f9ffafef7a324ad59c5a2d2cc5e3f/src/ObservableCollector.jl#L49-L62' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/05744be6dacae997d79837b3e9e166b7c6d0c21a/src/ObservableCollector.jl#L49-L62' class='documenter-source'>source</a><br></p>
 <pre><code>@condition(cond, name, map)
 </code></pre>
 
 <p>Creates a clause to collect an observable <code>map(state,time)</code> called <code>name</code> under condition <code>cond(state,time)</code>.</p>
 <p>See also: <a href=".#ObservableCollector.@at"><code>@at</code></a>, <a href=".#ObservableCollector.@every"><code>@every</code></a></p>
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/76846082cd6f9ffafef7a324ad59c5a2d2cc5e3f/src/ObservableCollector.jl#L79-L86' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/05744be6dacae997d79837b3e9e166b7c6d0c21a/src/ObservableCollector.jl#L79-L86' class='documenter-source'>source</a><br></p>
 <p><a id='ObservableCollector.@at' href='#ObservableCollector.@at'>#</a>
 <strong><code>ObservableCollector.@at</code></strong> &mdash; <em>Macro</em>.</p>
 <pre><code class="julia">@at(N::Integer, name, map)
@@ -216,7 +216,7 @@ end
 
 <p>Creates a clause to collect an observable <code>map(state,time)</code> called <code>name</code> at timestep <code>N</code>.</p>
 <p>See also: <a href=".#ObservableCollector.@condition"><code>@condition</code></a></p>
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/76846082cd6f9ffafef7a324ad59c5a2d2cc5e3f/src/ObservableCollector.jl#L93-L100' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/05744be6dacae997d79837b3e9e166b7c6d0c21a/src/ObservableCollector.jl#L93-L100' class='documenter-source'>source</a><br></p>
 <p><a id='ObservableCollector.@every' href='#ObservableCollector.@every'>#</a>
 <strong><code>ObservableCollector.@every</code></strong> &mdash; <em>Macro</em>.</p>
 <pre><code class="julia">@every(N::Integer, name, map)
@@ -224,14 +224,14 @@ end
 
 <p>Creates a clause to collect an observable <code>map(state,time)</code> called <code>name</code> every <code>N</code> timesteps, i.e <code>t%N==0</code>.</p>
 <p>See also: <a href=".#ObservableCollector.@condition"><code>@condition</code></a></p>
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/76846082cd6f9ffafef7a324ad59c5a2d2cc5e3f/src/ObservableCollector.jl#L107-L114' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/05744be6dacae997d79837b3e9e166b7c6d0c21a/src/ObservableCollector.jl#L107-L114' class='documenter-source'>source</a><br></p>
 <p><a id='ObservableCollector.timeseries' href='#ObservableCollector.timeseries'>#</a>
 <strong><code>ObservableCollector.timeseries</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code class="julia">timeseries(x)
 </code></pre>
 
 <p>Turn a series of named tuples <code>(name=x, val=y)</code> into a dictionary with one series for each <code>name</code>. Types are <code>Union{Missing, T}</code> where <code>T</code> is the type of the first value encountered for a given name.</p>
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/76846082cd6f9ffafef7a324ad59c5a2d2cc5e3f/src/ObservableCollector.jl#L23-L29' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/05744be6dacae997d79837b3e9e166b7c6d0c21a/src/ObservableCollector.jl#L23-L29' class='documenter-source'>source</a><br></p>
               
             </div>
           </div>
@@ -273,5 +273,5 @@ end
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-10-04 14:33:31
+Build Date UTC : 2019-10-04 15:14:07
 -->
