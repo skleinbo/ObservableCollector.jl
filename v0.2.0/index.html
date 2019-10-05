@@ -151,25 +151,25 @@ X
 
 <pre><code>4004-element Array{Any,1}:
  (name = :step, val = 0)                 
- (name = :dt, val = 88.4876462288641)    
+ (name = :dt, val = 83.97155298518244)   
  (name = :m, val = 0.0)                  
  (name = :var, val = 0.0)                
  (name = :step, val = 100)               
- (name = :dt, val = 119.25141681988829)  
- (name = :m, val = -0.010970602062122366)
- (name = :var, val = 0.2551856394305265) 
+ (name = :dt, val = 100.00740230972015)  
+ (name = :m, val = 0.0003930655995079922)
+ (name = :var, val = 0.26160886476073925)
  (name = :step, val = 200)               
- (name = :dt, val = 94.07264999248532)   
+ (name = :dt, val = 96.85494971173976)   
  ⋮                                       
- (name = :var, val = 249.16247767102539) 
+ (name = :var, val = 255.93843105199122) 
  (name = :step, val = 99900)             
- (name = :dt, val = 95.14016840275579)   
- (name = :m, val = -0.4164371697572756)  
- (name = :var, val = 250.19326513530964) 
+ (name = :dt, val = 93.37071123687382)   
+ (name = :m, val = -0.5043983754920668)  
+ (name = :var, val = 256.20664878355996) 
  (name = :step, val = 100000)            
- (name = :dt, val = 84.55027451041663)   
- (name = :m, val = -0.40842663390597567) 
- (name = :var, val = 249.697716849823)   
+ (name = :dt, val = 99.27002411873116)   
+ (name = :m, val = -0.4984856006539832)  
+ (name = :var, val = 256.795375882665)   
 </code></pre>
 
 <p>This storage format is not very appealing. It is simply a linear record of observables collected throughout the run. We may use the <code>timeseries</code> function to cast it into a more useful form</p>
@@ -177,10 +177,10 @@ X
 </code></pre>
 
 <pre><code>Dict{Symbol,Any} with 4 entries:
-  :m    =&gt; Union{Missing, Float64}[0.0, -0.0109706, -0.00789131, 0.00284458, -0…
+  :m    =&gt; Union{Missing, Float64}[0.0, 0.000393066, -0.00328986, 0.00407247, -…
   :step =&gt; Union{Missing, Int64}[0, 100, 200, 300, 400, 500, 600, 700, 800, 900…
-  :var  =&gt; Union{Missing, Float64}[0.0, 0.255186, 0.480664, 0.722972, 0.95195, …
-  :dt   =&gt; Union{Missing, Float64}[88.4876, 119.251, 94.0726, 80.3475, 94.3591,…
+  :var  =&gt; Union{Missing, Float64}[0.0, 0.261609, 0.496245, 0.717733, 0.942514,…
+  :dt   =&gt; Union{Missing, Float64}[83.9716, 100.007, 96.8549, 102.142, 111.19, …
 </code></pre>
 
 <p><a id='Hints-1'></a></p>
@@ -303,5 +303,5 @@ end
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-10-05 12:59:22
+Build Date UTC : 2019-10-05 13:38:33
 -->
