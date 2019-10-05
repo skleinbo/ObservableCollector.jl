@@ -1,7 +1,7 @@
 name = "ObservableCollector"
 uuid = "aecdbc30-9f0d-11e8-0949-396c5a157264"
 authors = ["Stephan Kleinboelting <skleinbo@thp.uni-koeln.de>"]
-version = "0.2.0"
+version = "0.2.1"
 
 [compat]
 julia = "1"
