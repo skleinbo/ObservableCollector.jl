@@ -151,25 +151,25 @@ X
 
 <pre><code>4004-element Array{Any,1}:
  (name = :step, val = 0)                 
- (name = :dt, val = 95.41974349444035)   
+ (name = :dt, val = 93.49376583836542)   
  (name = :m, val = 0.0)                  
  (name = :var, val = 0.0)                
  (name = :step, val = 100)               
- (name = :dt, val = 86.17955537609366)   
- (name = :m, val = -0.016303354518056458)
- (name = :var, val = 0.26676618388276957)
+ (name = :dt, val = 110.37838399022836)  
+ (name = :m, val = -0.03581113873804907) 
+ (name = :var, val = 0.24488101184420855)
  (name = :step, val = 200)               
- (name = :dt, val = 101.59181499780908)  
+ (name = :dt, val = 114.2837524884593)   
  ⋮                                       
- (name = :var, val = 269.7548007727232)  
+ (name = :var, val = 255.5481045593209)  
  (name = :step, val = 99900)             
- (name = :dt, val = 108.51053443774278)  
- (name = :m, val = -0.5595892994073585)  
- (name = :var, val = 269.311248792131)   
+ (name = :dt, val = 109.97492079454588)  
+ (name = :m, val = -0.40574684192591315) 
+ (name = :var, val = 255.35784929874413) 
  (name = :step, val = 100000)            
- (name = :dt, val = 97.20044216715776)   
- (name = :m, val = -0.5493416089312537)  
- (name = :var, val = 269.7765251733124)  
+ (name = :dt, val = 90.4284938057772)    
+ (name = :m, val = -0.4181458198849698)  
+ (name = :var, val = 255.33288648140376) 
 </code></pre>
 
 <p>This storage format is not very appealing. It is simply a linear record of observables collected throughout the run. We may use the <code>timeseries</code> function to cast it into a more useful form</p>
@@ -177,10 +177,10 @@ X
 </code></pre>
 
 <pre><code>Dict{Symbol,Any} with 4 entries:
-  :m    =&gt; Union{Missing, Float64}[0.0, -0.0163034, -0.0290476, -0.0489194, -0.…
+  :m    =&gt; Union{Missing, Float64}[0.0, -0.0358111, -0.0558237, -0.0655887, -0.…
   :step =&gt; Union{Missing, Int64}[0, 100, 200, 300, 400, 500, 600, 700, 800, 900…
-  :var  =&gt; Union{Missing, Float64}[0.0, 0.266766, 0.527187, 0.779862, 1.03792, …
-  :dt   =&gt; Union{Missing, Float64}[95.4197, 86.1796, 101.592, 94.7698, 94.2915,…
+  :var  =&gt; Union{Missing, Float64}[0.0, 0.244881, 0.493697, 0.722369, 0.975148,…
+  :dt   =&gt; Union{Missing, Float64}[93.4938, 110.378, 114.284, 92.1873, 109.26, …
 </code></pre>
 
 <p><a id='Hints-1'></a></p>
@@ -218,7 +218,7 @@ output = Any[(name = :A, val = 1), (name = :T, val = 3), (name = :A, val = 1), (
  (name = :T, val = 4)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/95f848efedc4f23f20d1400de0f99ea2a86c80ea/src/ObservableCollector.jl#L121-L148' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/0bec2ad71d7a75af996340d1852a38453c932fd7/src/ObservableCollector.jl#L121-L148' class='documenter-source'>source</a><br></p>
 <p><a id='ObservableCollector.@condition' href='#ObservableCollector.@condition'>#</a>
 <strong><code>ObservableCollector.@condition</code></strong> &mdash; <em>Macro</em>.</p>
 <pre><code class="julia">@condition(cond, block)
@@ -232,13 +232,13 @@ output = Any[(name = :A, val = 1), (name = :T, val = 3), (name = :A, val = 1), (
 end
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/95f848efedc4f23f20d1400de0f99ea2a86c80ea/src/ObservableCollector.jl#L49-L62' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/0bec2ad71d7a75af996340d1852a38453c932fd7/src/ObservableCollector.jl#L49-L62' class='documenter-source'>source</a><br></p>
 <pre><code>@condition(cond, name, map)
 </code></pre>
 
 <p>Creates a clause to collect an observable <code>map(state,time)</code> called <code>name</code> under condition <code>cond(state,time)</code>.</p>
 <p>See also: <a href=".#ObservableCollector.@at"><code>@at</code></a>, <a href=".#ObservableCollector.@every"><code>@every</code></a></p>
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/95f848efedc4f23f20d1400de0f99ea2a86c80ea/src/ObservableCollector.jl#L79-L86' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/0bec2ad71d7a75af996340d1852a38453c932fd7/src/ObservableCollector.jl#L79-L86' class='documenter-source'>source</a><br></p>
 <p><a id='ObservableCollector.@at' href='#ObservableCollector.@at'>#</a>
 <strong><code>ObservableCollector.@at</code></strong> &mdash; <em>Macro</em>.</p>
 <pre><code class="julia">@at(N::Integer, name, map)
@@ -246,7 +246,7 @@ end
 
 <p>Creates a clause to collect an observable <code>map(state,time)</code> called <code>name</code> at timestep <code>N</code>.</p>
 <p>See also: <a href=".#ObservableCollector.@condition"><code>@condition</code></a></p>
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/95f848efedc4f23f20d1400de0f99ea2a86c80ea/src/ObservableCollector.jl#L93-L100' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/0bec2ad71d7a75af996340d1852a38453c932fd7/src/ObservableCollector.jl#L93-L100' class='documenter-source'>source</a><br></p>
 <p><a id='ObservableCollector.@every' href='#ObservableCollector.@every'>#</a>
 <strong><code>ObservableCollector.@every</code></strong> &mdash; <em>Macro</em>.</p>
 <pre><code class="julia">@every(N::Integer, name, map)
@@ -254,14 +254,14 @@ end
 
 <p>Creates a clause to collect an observable <code>map(state,time)</code> called <code>name</code> every <code>N</code> timesteps, i.e <code>t%N==0</code>.</p>
 <p>See also: <a href=".#ObservableCollector.@condition"><code>@condition</code></a></p>
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/95f848efedc4f23f20d1400de0f99ea2a86c80ea/src/ObservableCollector.jl#L107-L114' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/0bec2ad71d7a75af996340d1852a38453c932fd7/src/ObservableCollector.jl#L107-L114' class='documenter-source'>source</a><br></p>
 <p><a id='ObservableCollector.timeseries' href='#ObservableCollector.timeseries'>#</a>
 <strong><code>ObservableCollector.timeseries</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code class="julia">timeseries(x)
 </code></pre>
 
 <p>Turn a series of named tuples <code>(name=x, val=y)</code> into a dictionary with one series for each <code>name</code>. Types are <code>Union{Missing, T}</code> where <code>T</code> is the type of the first value encountered for a given name.</p>
-<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/95f848efedc4f23f20d1400de0f99ea2a86c80ea/src/ObservableCollector.jl#L23-L29' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/0bec2ad71d7a75af996340d1852a38453c932fd7/src/ObservableCollector.jl#L23-L29' class='documenter-source'>source</a><br></p>
               
             </div>
           </div>
@@ -303,5 +303,5 @@ end
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-10-04 15:22:56
+Build Date UTC : 2019-10-05 09:21:37
 -->
