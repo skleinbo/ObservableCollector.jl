@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Collect your observables with ease.">
+  <meta name="author" content="Stephan Kleinbölting">
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>Home - ObservableCollector.jl</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="assets/Documenter.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Home";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> ObservableCollector.jl</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href=".">Home</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#observablecollectorjl">ObservableCollector.jl</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#introduction">Introduction</a></li>
+        
+            <li><a class="toctree-l3" href="#hints">Hints</a></li>
+        
+            <li><a class="toctree-l3" href="#available-methods">Available methods</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">ObservableCollector.jl</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Home</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/skleinbo/ObservableCollector.jl/edit/master/docs/index.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><a id='ObservableCollector.jl-1'></a></p>
+<h1 id="observablecollectorjl">ObservableCollector.jl</h1>
+<p>Easily define observables to be measured.</p>
+<p><a id='Introduction-1'></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>Simulating a physical/biological/chemical,... system typically involes the following steps</p>
+<ol>
+<li>Setup a <code>state</code> with some initial conditions.</li>
+<li>Evole <code>state</code> through some deterministic or stochastic dynamics for a number of steps.</li>
+<li>Measure a host of observables; possibly only if some condition is fulfilled.</li>
+<li>Go back to 2. until the simulation reaches a halting condition.</li>
+</ol>
+<p>Step 3. typically involves preparing a vector for each quantity to be measured (or a dictionary) beforehand, and then pushing the measurements onto them.</p>
+<p>The package at hand implements a convinience layer around step 3.</p>
+<p><strong>Terminology:</strong></p>
+<ul>
+<li><strong>state</strong> The current state of the model. Can be any data type or user defined structure. Contains all necessary information to determine observables from.</li>
+<li><strong>observable</strong> Function of state and possibly simulation time. In the an <em>observable</em> will refer to a function <code>f(state, time)::Any</code>.</li>
+</ul>
+<p>Let us look at a quick (and mostly trivial) example. The state is simply a fixed-size vector. In each timestep we add a bit of random noise to every entry (effectively simulating many random walks on the real line). We'd like to measure mean and variance over time. Additionally we imagine the steps happening at rate <code>1.0</code> and thus draw the waiting-time between steps from an exponential distribution.</p>
+<pre><code class="julia">using ObservableCollector
+using Distributions
+
+p = Gamma(100, 1.0) # sum of exponentially distr. rvs is gamma-distributed.
+state = fill(0.0, 1000)
+
+obs! = @observations begin
+  @condition (s,t)-&gt;t%100==0 begin
+    &quot;step&quot; --&gt; (s,t)-&gt;t
+    &quot;dt&quot; --&gt; (s,t)-&gt;rand(p)
+    &quot;m&quot; --&gt; (s,t)-&gt;mean(s)
+    &quot;var&quot; --&gt; (s,t)-&gt;var(s)
+  end
+end # note the ! in the name I chose. `obs!` will mutate its first argument.
+
+X = [] # empty array to store all measured quantities in.
+for t in 0:10^5 # make 10^5 steps
+  obs!(X, state, t)
+  state .+= 0.05*randn(length(state))
+end
+
+X
+</code></pre>
+
+<pre><code>4004-element Array{Any,1}:
+ (name = :step, val = 0)                 
+ (name = :dt, val = 88.4876462288641)    
+ (name = :m, val = 0.0)                  
+ (name = :var, val = 0.0)                
+ (name = :step, val = 100)               
+ (name = :dt, val = 119.25141681988829)  
+ (name = :m, val = -0.010970602062122366)
+ (name = :var, val = 0.2551856394305265) 
+ (name = :step, val = 200)               
+ (name = :dt, val = 94.07264999248532)   
+ ⋮                                       
+ (name = :var, val = 249.16247767102539) 
+ (name = :step, val = 99900)             
+ (name = :dt, val = 95.14016840275579)   
+ (name = :m, val = -0.4164371697572756)  
+ (name = :var, val = 250.19326513530964) 
+ (name = :step, val = 100000)            
+ (name = :dt, val = 84.55027451041663)   
+ (name = :m, val = -0.40842663390597567) 
+ (name = :var, val = 249.697716849823)   
+</code></pre>
+
+<p>This storage format is not very appealing. It is simply a linear record of observables collected throughout the run. We may use the <code>timeseries</code> function to cast it into a more useful form</p>
+<pre><code class="julia">timeseries(X)
+</code></pre>
+
+<pre><code>Dict{Symbol,Any} with 4 entries:
+  :m    =&gt; Union{Missing, Float64}[0.0, -0.0109706, -0.00789131, 0.00284458, -0…
+  :step =&gt; Union{Missing, Int64}[0, 100, 200, 300, 400, 500, 600, 700, 800, 900…
+  :var  =&gt; Union{Missing, Float64}[0.0, 0.255186, 0.480664, 0.722972, 0.95195, …
+  :dt   =&gt; Union{Missing, Float64}[88.4876, 119.251, 94.0726, 80.3475, 94.3591,…
+</code></pre>
+
+<p><a id='Hints-1'></a></p>
+<h2 id="hints">Hints</h2>
+<ul>
+<li><code>t</code> needn't necessarily be time. You may use it as some auxilliary variable, or even as a boolean switch to turn collection on/off. It also need not be a scalar, but could e.g. be a tuple.</li>
+<li>Observables are (by my definition) functions of state only and thus have no access to the measurement history. If you require observables to depend on previous measurements, store those in the state. (<strong>TODO:</strong> example)</li>
+</ul>
+<p><a id='Available-methods-1'></a></p>
+<h2 id="available-methods">Available methods</h2>
+<p><a id='ObservableCollector.@observations' href='#ObservableCollector.@observations'>#</a>
+<strong><code>ObservableCollector.@observations</code></strong> &mdash; <em>Macro</em>.</p>
+<pre><code class="julia">@observations(block)
+</code></pre>
+
+<p>Creates an anonymous function with arguments <code>(output::Vector{Any}, state, time)</code>     that collects observables under conditions defined in <code>block</code>.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="julia">output = []
+obs = @observations begin
+    @condition (s,t)-&gt;t&gt;=3 begin
+        &quot;A&quot; --&gt; (s,t)-&gt;s
+        &quot;T&quot; --&gt; (s,t)-&gt;t
+    end
+end
+for t in 1:4
+    obs(output,1,t)
+end
+
+julia&gt; @show output
+output = Any[(name = :A, val = 1), (name = :T, val = 3), (name = :A, val = 1), (name = :T, val = 4)]
+4-element Array{Any,1}:
+ (name = :A, val = 1)
+ (name = :T, val = 3)
+ (name = :A, val = 1)
+ (name = :T, val = 4)
+</code></pre>
+
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/85d87c6263dd1544e9bfa3eb9d6cb09ca4a09bd8/src/ObservableCollector.jl#L121-L148' class='documenter-source'>source</a><br></p>
+<p><a id='ObservableCollector.@condition' href='#ObservableCollector.@condition'>#</a>
+<strong><code>ObservableCollector.@condition</code></strong> &mdash; <em>Macro</em>.</p>
+<pre><code class="julia">@condition(cond, block)
+</code></pre>
+
+<p>Define multiple observables to be evaluated under the same condition. Use <code>--&gt;</code> to define pairs of <code>name --&gt; map</code>.</p>
+<p><strong>Example</strong></p>
+<pre><code class="julia">@condition (s,t)-&gt;t&gt;=3 begin
+    &quot;S&quot; --&gt; (s,t)-&gt;s^2
+    &quot;T&quot; --&gt; (s,t)-&gt;t
+end
+</code></pre>
+
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/85d87c6263dd1544e9bfa3eb9d6cb09ca4a09bd8/src/ObservableCollector.jl#L49-L62' class='documenter-source'>source</a><br></p>
+<pre><code>@condition(cond, name, map)
+</code></pre>
+
+<p>Creates a clause to collect an observable <code>map(state,time)</code> called <code>name</code> under condition <code>cond(state,time)</code>.</p>
+<p>See also: <a href=".#ObservableCollector.@at"><code>@at</code></a>, <a href=".#ObservableCollector.@every"><code>@every</code></a></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/85d87c6263dd1544e9bfa3eb9d6cb09ca4a09bd8/src/ObservableCollector.jl#L79-L86' class='documenter-source'>source</a><br></p>
+<p><a id='ObservableCollector.@at' href='#ObservableCollector.@at'>#</a>
+<strong><code>ObservableCollector.@at</code></strong> &mdash; <em>Macro</em>.</p>
+<pre><code class="julia">@at(N::Integer, name, map)
+</code></pre>
+
+<p>Creates a clause to collect an observable <code>map(state,time)</code> called <code>name</code> at timestep <code>N</code>.</p>
+<p>See also: <a href=".#ObservableCollector.@condition"><code>@condition</code></a></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/85d87c6263dd1544e9bfa3eb9d6cb09ca4a09bd8/src/ObservableCollector.jl#L93-L100' class='documenter-source'>source</a><br></p>
+<p><a id='ObservableCollector.@every' href='#ObservableCollector.@every'>#</a>
+<strong><code>ObservableCollector.@every</code></strong> &mdash; <em>Macro</em>.</p>
+<pre><code class="julia">@every(N::Integer, name, map)
+</code></pre>
+
+<p>Creates a clause to collect an observable <code>map(state,time)</code> called <code>name</code> every <code>N</code> timesteps, i.e <code>t%N==0</code>.</p>
+<p>See also: <a href=".#ObservableCollector.@condition"><code>@condition</code></a></p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/85d87c6263dd1544e9bfa3eb9d6cb09ca4a09bd8/src/ObservableCollector.jl#L107-L114' class='documenter-source'>source</a><br></p>
+<p><a id='ObservableCollector.timeseries' href='#ObservableCollector.timeseries'>#</a>
+<strong><code>ObservableCollector.timeseries</code></strong> &mdash; <em>Function</em>.</p>
+<pre><code class="julia">timeseries(x)
+</code></pre>
+
+<p>Turn a series of named tuples <code>(name=x, val=y)</code> into a dictionary with one series for each <code>name</code>. Types are <code>Union{Missing, T}</code> where <code>T</code> is the type of the first value encountered for a given name.</p>
+<p><a target='_blank' href='https://github.com/skleinbo/ObservableCollector.jl/blob/85d87c6263dd1544e9bfa3eb9d6cb09ca4a09bd8/src/ObservableCollector.jl#L23-L29' class='documenter-source'>source</a><br></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/skleinbo/ObservableCollector.jl/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-10-05 12:59:22
+-->
