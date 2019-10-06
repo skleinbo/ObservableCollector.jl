@@ -150,26 +150,26 @@ X
 </code></pre>
 
 <pre><code>4004-element Array{Any,1}:
- (name = :step, val = 0)                
- (name = :dt, val = 91.3330211569293)   
- (name = :m, val = 0.0)                 
- (name = :var, val = 0.0)               
- (name = :step, val = 100)              
- (name = :dt, val = 104.76142098080297) 
- (name = :m, val = 0.005714396529782212)
- (name = :var, val = 0.2578027490058928)
- (name = :step, val = 200)              
- (name = :dt, val = 91.7851570740842)   
- ⋮                                      
- (name = :var, val = 249.81997935360272)
- (name = :step, val = 99900)            
- (name = :dt, val = 112.38159026869654) 
- (name = :m, val = 0.4065879899783645)  
- (name = :var, val = 249.64949994786437)
- (name = :step, val = 100000)           
- (name = :dt, val = 94.9896007014644)   
- (name = :m, val = 0.41702410899699666) 
- (name = :var, val = 249.63064620929993)
+ (name = :step, val = 0)                 
+ (name = :dt, val = 100.46119831082201)  
+ (name = :m, val = 0.0)                  
+ (name = :var, val = 0.0)                
+ (name = :step, val = 100)               
+ (name = :dt, val = 84.81980429548172)   
+ (name = :m, val = -0.011528671574831163)
+ (name = :var, val = 0.2403012762883209) 
+ (name = :step, val = 200)               
+ (name = :dt, val = 96.36332146701041)   
+ ⋮                                       
+ (name = :var, val = 227.24326265659946) 
+ (name = :step, val = 99900)             
+ (name = :dt, val = 96.3992062582508)    
+ (name = :m, val = -0.08855267942180968) 
+ (name = :var, val = 227.58187609130403) 
+ (name = :step, val = 100000)            
+ (name = :dt, val = 91.28119040378557)   
+ (name = :m, val = -0.069292641994477)   
+ (name = :var, val = 228.0171518317149)  
 </code></pre>
 
 <p>This storage format is not very appealing. It is simply a linear record of observables collected throughout the run. We may use the <code>timeseries</code> function to cast it into a more useful form</p>
@@ -177,10 +177,10 @@ X
 </code></pre>
 
 <pre><code>Dict{Symbol,Any} with 4 entries:
-  :m    =&gt; Union{Missing, Float64}[0.0, 0.0057144, -0.016675, -0.0260118, -0.02…
+  :m    =&gt; Union{Missing, Float64}[0.0, -0.0115287, -0.0110809, -0.0108958, -0.…
   :step =&gt; Union{Missing, Int64}[0, 100, 200, 300, 400, 500, 600, 700, 800, 900…
-  :var  =&gt; Union{Missing, Float64}[0.0, 0.257803, 0.483886, 0.720768, 1.00072, …
-  :dt   =&gt; Union{Missing, Float64}[91.333, 104.761, 91.7852, 104.25, 94.238, 11…
+  :var  =&gt; Union{Missing, Float64}[0.0, 0.240301, 0.523373, 0.780849, 1.12738, …
+  :dt   =&gt; Union{Missing, Float64}[100.461, 84.8198, 96.3633, 97.6238, 109.781,…
 </code></pre>
 
 <p><a id='Hints-1'></a></p>
@@ -303,5 +303,5 @@ end
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-10-05 13:51:47
+Build Date UTC : 2019-10-06 11:14:20
 -->
